@@ -1,9 +1,9 @@
 exports.createAggPipeForRecord = function createAggregatePipeline({ minCount, maxCount, startDate, endDate }) {
 	try {
 		// match on date
-		const dateFilter = {};
+		const dateFilter = {'$match':{}};
 		// match the count
-		const countFilter = {};
+		const countFilter = {'$match':{}};
 
 		// to unwind count from array to find sum
 		const unwind = {
@@ -41,14 +41,12 @@ exports.createAggPipeForRecord = function createAggregatePipeline({ minCount, ma
 			if(endDate) {
 				createdAt['$lt'] = parseDate(endDate);
 			}
-			dateFilter['$match'] = {}
 			dateFilter['$match'].createdAt = createdAt;
 		}
 		if(minCount || maxCount){
 			let counts = {};
 			if(minCount) counts['$gte'] = minCount;
 			if(maxCount) counts['$lte'] = maxCount;
-			countFilter['$match'] = {}
 			countFilter['$match'].counts = counts;
 		}
 		return [dateFilter,unwind,groupBy,countFilter,projection]
