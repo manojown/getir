@@ -52,7 +52,6 @@ exports.createAggPipeForRecord = function createAggregatePipeline({ minCount, ma
 		return [dateFilter,unwind,groupBy,countFilter,projection]
 		
 	} catch (e) {
-		console.log("e:::",e)
 		throw new Error(`Error occured due to : ${e.message}`);
 	}
 }
