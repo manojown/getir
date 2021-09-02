@@ -18,8 +18,6 @@ exports.getRecord = async function getRecord(data) {
 			.toArray();
 		return result;
 	} catch (e) {
-		console.log("e:::",e)
-
 		throw new Error(`Erorr occured due to : ${e.message}`);
 	}
 };

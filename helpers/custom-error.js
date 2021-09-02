@@ -14,7 +14,6 @@ class ErrorHandler extends Error {
  * @param  {} res
  */
 const handleError = (err, res) => {
-    console.log("err",err)
     const { statusCode, message } = err;
     let responseToSend  = response({code:1, message:message,error:err})
     return res.status(500).json(responseToSend);
