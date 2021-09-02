@@ -16,7 +16,7 @@ describe("Record api Endpoints", () => {
 		let { code, contain } = output;
 		const res = await request(app).post("/api/record").send(input);
 		expect(res.body.code).toEqual(code);
-		expect(res.body.message).toEqual(contain);
+		expect(res.body.msg).toEqual(contain);
 	});
 
 	it("should get not found when unknown routes hit", async () => {
