@@ -1,9 +1,14 @@
+/**
+ * @description Create aggregation pipeline to filterout data
+ * @param  {  minCount: number, maxCount: number, startDate: Date, endDate: Date  }
+ * @return { Array } aggregation pipe
+ */
 exports.createAggPipeForRecord = function createAggregatePipeline({ minCount, maxCount, startDate, endDate }) {
 	try {
 		// match on date
-		const dateFilter = {'$match':{}};
+		const dateFilter = { $match: {} };
 		// match the count
-		const countFilter = {'$match':{}};
+		const countFilter = { $match: {} };
 
 		// to unwind count from array to find sum
 		const unwind = {
@@ -11,7 +16,7 @@ exports.createAggPipeForRecord = function createAggregatePipeline({ minCount, ma
 		};
 
 		// group by id to find unwind result and get sum
-		const groupBy =  {
+		const groupBy = {
 			$group: {
 				_id: "$_id",
 				counts: {
@@ -33,31 +38,30 @@ exports.createAggPipeForRecord = function createAggregatePipeline({ minCount, ma
 		};
 
 		// field validation : in initial call we already validate the result but its just shake of error handling
-		if(startDate || endDate) {
+		if (startDate || endDate) {
 			let createdAt = {};
-			if(startDate) {
-				createdAt['$gt'] = parseDate(startDate);
+			if (startDate) {
+				createdAt["$gt"] = parseDate(startDate);
 			}
-			if(endDate) {
-				createdAt['$lt'] = parseDate(endDate);
+			if (endDate) {
+				createdAt["$lt"] = parseDate(endDate);
 			}
-			dateFilter['$match'].createdAt = createdAt;
+			dateFilter["$match"].createdAt = createdAt;
 		}
-		if(minCount || maxCount){
+		if (minCount || maxCount) {
 			let counts = {};
-			if(minCount) counts['$gte'] = minCount;
-			if(maxCount) counts['$lte'] = maxCount;
-			countFilter['$match'].counts = counts;
+			if (minCount) counts["$gte"] = minCount;
+			if (maxCount) counts["$lte"] = maxCount;
+			countFilter["$match"].counts = counts;
 		}
-		return [dateFilter,unwind,groupBy,countFilter,projection]
-		
+		return [dateFilter, unwind, groupBy, countFilter, projection];
 	} catch (e) {
 		throw new Error(`Error occured due to : ${e.message}`);
 	}
-}
+};
 
-function parseDate(date){
-	let parseDate = new Date(date)
-	if(parseDate.getTime()) return parseDate
-	else throw new Error("Date is not in valid formate.")
+function parseDate(date) {
+	let parseDate = new Date(date);
+	if (parseDate.getTime()) return parseDate;
+	else throw new Error("Date is not in valid formate.");
 }
