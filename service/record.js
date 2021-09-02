@@ -23,8 +23,4 @@ exports.getRecord = async function getRecord(data) {
 };
 
 
-/**
- * @description Create aggregation pipeline to filterout data
- * @param  {  minCount: number, maxCount: number, startDate: Date, endDate: Date  }
- * @return { Array } aggregation pipe
- */
+
